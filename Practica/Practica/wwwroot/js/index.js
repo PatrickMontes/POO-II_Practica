@@ -130,7 +130,7 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
         fechaCompra: $("#txtFechaCompra").val()
     }
 
-    if (_modeloCompra.idDetalleCompra == 0) {
+    if (_modeloPersonal.idPersonal == 0) {
         fetch("/Home/crearDetalleCompra", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
@@ -141,12 +141,12 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
             })
             .then(responseJson => {
                 if (responseJson.valor) {
-                    $("#modalCompra").modal(hide);
-                    Swal.fire("Listo!", "Personal fue creado", "success");
+                    $("#modalCompra").modal("hide");
+                    Swal.fire("Listo!", "Compra fue creado", "success");
                     MostrarCompra();
                 }
                 else
-                    Swal.fire("Lo sentimos!", "No se pudo crear Personal", "error");
+                    Swal.fire("Lo sentimos!", "No se pudo crear Compra", "error");
             })
     }
     else {
@@ -160,12 +160,12 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
             })
             .then(responseJson => {
                 if (responseJson.valor) {
-                    $("#modalCompra").modal(hide);
-                    Swal.fire("Listo!", "Personal fue actualizado", "success");
+                    $("#modalCompra").modal("hide");
+                    Swal.fire("Listo!", "Compra fue actualizado", "success");
                     MostrarCompra();
                 }
                 else
-                    Swal.fire("Lo sentimos!", "No se pudo actualizar Personal", "error");
+                    Swal.fire("Lo sentimos!", "No se pudo actualizar Compra", "error");
             })
     }
 })

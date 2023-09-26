@@ -29,48 +29,49 @@ namespace Practica.Controllers
             return View();
         }
 
-        [HttpGet]public async Task<IActionResult> listaProductos()
+        [HttpGet]
+        public async Task<IActionResult> listaProductos()
         {
             List<Producto> _lista = await _productoRepository.Listar();
             return StatusCode(StatusCodes.Status200OK, _lista);
         }
 
-        [HttpGet]public async Task<IActionResult> listaProveedores()
+        [HttpGet]
+        public async Task<IActionResult> listaProveedores()
         {
             List<Proveedor> _lista = await _proveedorRepository.Listar();
             return StatusCode(StatusCodes.Status200OK, _lista);
         }
 
-        [HttpGet]public async Task<IActionResult> listaDetalleCompras()
+        [HttpGet]
+        public async Task<IActionResult> listaDetalleCompras()
         {
             List<DetalleCompra> _lista = await _detalleCompraRepository.Listar();
             return StatusCode(StatusCodes.Status200OK, _lista);
-        }
+        }       
 
-        [HttpPost]public async Task<IActionResult> crearDetalleCompra([FromBody] DetalleCompra modelo)
+        [HttpPost]
+        public async Task<IActionResult> crearDetalleCompra([FromBody] DetalleCompra modelo)
         {
             bool _resultado = await _detalleCompraRepository.Crear(modelo);
-            if (!_resultado){
-                return StatusCode(StatusCodes.Status200OK, new {valor = _resultado, msg = "Ok"});
-            }else{
-                return StatusCode(StatusCodes.Status500InternalServerError, new { valor = _resultado, msg = "error"});
-            }
+            if (_resultado)
+                return StatusCode(StatusCodes.Status200OK, new { valor = _resultado, msg = "Ok" });
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError, new { valor = _resultado, msg = "error" });
         }
 
-        [HttpPut]public async Task<IActionResult> editarDetalleCompra([FromBody] DetalleCompra modelo)
+        [HttpPut]
+        public async Task<IActionResult> editarDetalleCompra([FromBody] DetalleCompra modelo)
         {
             bool _resultado = await _detalleCompraRepository.Editar(modelo);
-            if (!_resultado)
-            {
+            if (_resultado)
                 return StatusCode(StatusCodes.Status200OK, new { valor = _resultado, msg = "Ok" });
-            }
             else
-            {
                 return StatusCode(StatusCodes.Status500InternalServerError, new { valor = _resultado, msg = "error" });
-            }
-        }
+        }  
 
-        [HttpPut] public async Task<IActionResult> eliminarDetalleCompra(int idDetalleCompra)
+        [HttpPut]
+        public async Task<IActionResult> eliminarDetalleCompra(int idDetalleCompra)
         {
             bool _resultado = await _detalleCompraRepository.Eliminar(idDetalleCompra);
             if (_resultado)

@@ -169,3 +169,43 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
             })
     }
 })
+
+$(document).on("click", ".boton-eliminar-compra", function () {
+    const _compra = $(this).data("dataCompra");
+
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción eliminará la compra. No podrás deshacerla.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarCompra(_compra.idDetalleCompra);
+        }
+    });
+});
+
+function eliminarCompra(idDetalleCompra) {
+    fetch(`/Home/eliminarDetalleCompra?idDetalleCompra=${idDetalleCompra}`, {
+        method: "PUT"
+    })
+        .then(response => {
+            return response.ok ? response.json() : Promise.reject(response)
+        })
+        .then(responseJson => {
+            if (responseJson.valor) {
+                Swal.fire("Eliminado!", "La compra fue eliminada correctamente.", "success");
+                MostrarCompra();
+            }
+            else {
+                Swal.fire("Error", "No se pudo eliminar la compra.", "error");
+            }
+        })
+        .catch(error => {
+            Swal.fire("Error", "Ocurrió un error al eliminar la compra.", "error");
+        });
+}

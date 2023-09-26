@@ -13,9 +13,9 @@ namespace Practica.Controllers
         private readonly IGenericRepository<Proveedor> _proveedorRepository;
         private readonly IGenericRepository<DetalleCompra> _detalleCompraRepository;
 
-        public HomeController(ILogger<HomeController> logger, 
-            IGenericRepository<Producto> productoRepository, 
-            IGenericRepository<Proveedor> proveedorRepository, 
+        public HomeController(ILogger<HomeController> logger,
+            IGenericRepository<Producto> productoRepository,
+            IGenericRepository<Proveedor> proveedorRepository,
             IGenericRepository<DetalleCompra> detalleCompraRepository)
         {
             _logger = logger;
@@ -48,7 +48,7 @@ namespace Practica.Controllers
         {
             List<DetalleCompra> _lista = await _detalleCompraRepository.Listar();
             return StatusCode(StatusCodes.Status200OK, _lista);
-        }       
+        }
 
         [HttpPost]
         public async Task<IActionResult> crearDetalleCompra([FromBody] DetalleCompra modelo)
@@ -68,7 +68,7 @@ namespace Practica.Controllers
                 return StatusCode(StatusCodes.Status200OK, new { valor = _resultado, msg = "Ok" });
             else
                 return StatusCode(StatusCodes.Status500InternalServerError, new { valor = _resultado, msg = "error" });
-        }  
+        }
 
         [HttpPut]
         public async Task<IActionResult> eliminarDetalleCompra(int idDetalleCompra)

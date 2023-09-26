@@ -130,7 +130,7 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
         fechaCompra: $("#txtFechaCompra").val()
     }
 
-    if (_modeloPersonal.idPersonal == 0) {
+    if (_modeloCompra.idDetalleCompra == 0) {
         fetch("/Home/crearDetalleCompra", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },

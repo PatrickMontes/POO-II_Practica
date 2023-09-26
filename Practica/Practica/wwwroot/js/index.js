@@ -1,4 +1,4 @@
-﻿////creación de un modelo
+﻿// Modelo de compra para inicializar y mantener los datos del formulario
 const _modeloCompra = {
     idDetalleCompra: 0,
     idProducto: 0,
@@ -8,14 +8,17 @@ const _modeloCompra = {
     fechaCompra: "",
 }
 
-//Función para mostrar la lista de personal
+
+// Función para mostrar la lista de compras
 function MostrarCompra() {
-    fetch("/Home/listaDetalleCompras")
+    fetch("/Home/listaDetalleCompras")     // Realiza una solicitud GET para obtener la lista de compras
         .then(response => {
+            // Verifica si la respuesta es exitosa
             return response.ok ? response.json() : Promise.reject(response)
         })
 
         .then(responseJson => {
+            // Si hay compras en la respuesta, muestra los datos en la tabla
             if (responseJson.length > 0) {
                 $("#tablaCompra tbody").html("");
                 responseJson.forEach((compra) => {
@@ -38,15 +41,20 @@ function MostrarCompra() {
             }
         })
 }
-//entrando al evento cuando toda la página ya ha sido cargada ejecute algunas acciones
+
+
+// Evento que se ejecuta cuando se carga el DOM
 document.addEventListener("DOMContentLoaded", function () {
+    // Llama a la función para mostrar las compras
     MostrarCompra();
 
+    // Realiza una solicitud GET para obtener la lista de productos
     fetch("/Home/listaProductos")
         .then(response => {
             return response.ok ? response.json() : Promise.reject(response)
         })
         .then(responseJson => {
+            // Si hay productos en la respuesta, agrega opciones al select
             if (responseJson.length > 0) {
                 responseJson.forEach((item) => {
                     $("#cboProducto").append(
@@ -56,11 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
 
+    // Realiza una solicitud GET para obtener la lista de proveedores
     fetch("/Home/listaProveedores")
         .then(response => {
             return response.ok ? response.json() : Promise.reject(response)
         })
         .then(responseJson => {
+            // Si hay proveedores en la respuesta, agrega opciones al select
             if (responseJson.length > 0) {
                 responseJson.forEach((item) => {
                     $("#cboProveedor").append(
@@ -70,6 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
 
+
+    // Configuración del datepicker
     $("#txtFechaCompra").datepicker({
         format: "dd/mm/yyyy",
         autoclose: true,
@@ -79,8 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
 }, false);
 
 
-
+// Función para mostrar el modal de edición/creación de compras
 function MostrarModal() {
+    // Establece los valores en el modal
     $("#cboProducto").val(_modeloCompra.idProducto == 0 ? $("#cboProducto option:first").val() : _modeloCompra.idProducto);
     $("#cboProveedor").val(_modeloCompra.idProveedor == 0 ? $("#cboProveedor option:first").val() : _modeloCompra.idProveedor);
     $("#txtCantidad").val(_modeloCompra.cantidad);
@@ -90,7 +103,10 @@ function MostrarModal() {
     $("#modalCompra").modal("show");
 }
 
+
+// Evento click para crear una nueva compra
 $(document).on("click", ".boton-crear-compra", function () {
+    // Limpia el modelo de compra y muestra el modal
     _modeloCompra.idDetalleCompra = 0;
     _modeloCompra.idProducto = 0;
     _modeloCompra.idProveedor = 0;
@@ -102,7 +118,9 @@ $(document).on("click", ".boton-crear-compra", function () {
 })
 
 
+// Evento click para editar una compra existente
 $(document).on("click", ".boton-editar-compra", function () {
+    // Obtiene los datos de la compra y muestra el modal
     const _compra = $(this).data("dataCompra");
 
     _modeloCompra.idDetalleCompra = _compra.idDetalleCompra;
@@ -112,11 +130,13 @@ $(document).on("click", ".boton-editar-compra", function () {
     _modeloCompra.precio = _compra.precio;
     _modeloCompra.fechaCompra = _compra.fechaCompra;
 
-    // Rellenar los campos del modal con los datos de _modeloCompra
     MostrarModal();
 });
 
+
+// Evento click para guardar cambios en la compra
 $(document).on("click", ".boton-guardar-cambios-compras", function () {
+    // Obtiene los valores del formulario
     const modelo = {
         idDetalleCompra: _modeloCompra.idDetalleCompra,
         refProducto: {
@@ -130,7 +150,10 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
         fechaCompra: $("#txtFechaCompra").val()
     }
 
+
+    // Determina si se crea o edita una compra
     if (_modeloCompra.idDetalleCompra == 0) {
+        // Realiza una solicitud POST para crear una compra
         fetch("/Home/crearDetalleCompra", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
@@ -140,16 +163,18 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
                 return response.ok ? response.json() : Promise.reject(response)
             })
             .then(responseJson => {
+                // Muestra un mensaje de éxito o error
                 if (responseJson.valor) {
                     $("#modalCompra").modal("hide");
-                    Swal.fire("Listo!", "Compra fue creado", "success");
+                    Swal.fire("Creado!", "Detalle-Compra fue creado", "success");
                     MostrarCompra();
                 }
                 else
-                    Swal.fire("Lo sentimos!", "No se pudo crear Compra", "error");
+                    Swal.fire("Error!", "No se pudo crear Detalle-Compra", "error");
             })
     }
     else {
+        // Realiza una solicitud PUT para editar una compra existente
         fetch("/Home/editarDetalleCompra", {
             method: "PUT",
             headers: { "Content-Type": "application/json;charset=utf-8" },
@@ -159,23 +184,26 @@ $(document).on("click", ".boton-guardar-cambios-compras", function () {
                 return response.ok ? response.json() : Promise.reject(response)
             })
             .then(responseJson => {
+                // Muestra un mensaje de éxito o error
                 if (responseJson.valor) {
                     $("#modalCompra").modal("hide");
-                    Swal.fire("Listo!", "Compra fue actualizado", "success");
+                    Swal.fire("Actualizado!", "Detalle-Compra fue actualizado", "success");
                     MostrarCompra();
                 }
                 else
-                    Swal.fire("Lo sentimos!", "No se pudo actualizar Compra", "error");
+                    Swal.fire("Error!", "No se pudo actualizar el Detalle-Compra", "error");
             })
     }
 })
 
+
+// Evento click para eliminar una compra
 $(document).on("click", ".boton-eliminar-compra", function () {
     const _compra = $(this).data("dataCompra");
 
     Swal.fire({
         title: '¿Estás seguro?',
-        text: "Esta acción eliminará la compra. No podrás deshacerla.",
+        text: "Esta acción eliminará el Detalle Compra. No podrás deshacerla.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -184,11 +212,14 @@ $(document).on("click", ".boton-eliminar-compra", function () {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
+            // Llama a la función para eliminar la compra
             eliminarCompra(_compra.idDetalleCompra);
         }
     });
 });
 
+
+// Función para eliminar una compra por ID
 function eliminarCompra(idDetalleCompra) {
     fetch(`/Home/eliminarDetalleCompra?idDetalleCompra=${idDetalleCompra}`, {
         method: "PUT"
@@ -197,15 +228,16 @@ function eliminarCompra(idDetalleCompra) {
             return response.ok ? response.json() : Promise.reject(response)
         })
         .then(responseJson => {
+            // Muestra un mensaje de éxito o error
             if (responseJson.valor) {
-                Swal.fire("Eliminado!", "La compra fue eliminada correctamente.", "success");
+                Swal.fire("Eliminado!", "El Detalle-Compra fue eliminada correctamente.", "success");
                 MostrarCompra();
             }
             else {
-                Swal.fire("Error", "No se pudo eliminar la compra.", "error");
+                Swal.fire("Error", "No se pudo eliminar el Detalle-Compra.", "error");
             }
         })
         .catch(error => {
-            Swal.fire("Error", "Ocurrió un error al eliminar la compra.", "error");
+            Swal.fire("Error", "Ocurrió un error al eliminar el Detalle-Compra.", "error");
         });
 }

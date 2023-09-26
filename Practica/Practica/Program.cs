@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
+// Registra las implementaciones de IGenericRepository en el contenedor.
 builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();

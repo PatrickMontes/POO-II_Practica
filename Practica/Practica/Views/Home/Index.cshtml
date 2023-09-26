@@ -1,11 +1,15 @@
 ﻿@{
+    // Establecer el título de la página
     ViewData["Title"] = "CRUD Page";
 }
 
 <div class="row justify-content-center">
     <div class="col-10">
+
+        <!-- Título de la página -->
         <h1 style="text-align:center; font-weight: 800;">CRUD Detalle-Compra</h1><br />
 
+        <!-- Tabla para mostrar los datos -->
         <table class="table" id="tablaCompra">
             <thead class="table-dark">
                 <tr>
@@ -21,6 +25,7 @@
             </tbody>
         </table>
 
+        <!-- Botón para crear una nueva compra -->
         <div style="text-align:center">
             <button style="font-weight:600" type="button" class="btn btn-primary boton-crear-compra">Crear Compra</button>
         </div>
@@ -29,15 +34,21 @@
 </div>
 
 
+<!-- Modal para crear-editar los detalles de la compra -->
 <div class="modal fade" id="modalCompra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+
+            <!-- Header del modal -->
             <div class="modal-header">
+                <!-- Título del modal -->
                 <h1 class="modal-title fs-5" id="exampleModalLabel" style="font-weight:700">Detalle Compra</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
 
+                <!-- Formulario para editar detalles de la compra -->
                 <div class="mb-3">
                     <label class="form-label">Producto:</label>
                     <select class="form-select" id="cboProducto"></select>
@@ -60,7 +71,9 @@
                 </div>
 
             </div>
+
             <div class="modal-footer">
+                <!-- Botones para guardar y cerrar el modal -->
                 <button style="font-weight:600" type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
                 <button style="font-weight:600" type="button" class="btn btn-success boton-guardar-cambios-compras">Guardar</button>
             </div>

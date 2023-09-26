@@ -7,29 +7,34 @@ using System.Reflection;
 
 namespace Practica.Repository.Implementacion
 {
+    // Declaración de la clase DetalleCompraRepository que implementa la interfaz IGenericRepository
     public class DetalleCompraRepository : IGenericRepository<DetalleCompra>
     {
-        private readonly string _cadenaSQL = "";
+        private readonly string _cadenaSQL = ""; // Cadena de conexión SQL
 
+
+        // Constructor de la clase DetalleCompraRepository que toma IConfiguration como parámetro
         public DetalleCompraRepository(IConfiguration configuration)
         {
-            _cadenaSQL = configuration.GetConnectionString("cadenaSQL");
+            _cadenaSQL = configuration.GetConnectionString("cadenaSQL"); // Obtiene la cadena de conexión desde IConfiguration
         }
 
+        // Implementación del método Listar() de la interfaz IGenericRepository
         public async Task<List<DetalleCompra>> Listar()
         {
-            List<DetalleCompra> _lista = new List<DetalleCompra>();
+            List<DetalleCompra> _lista = new List<DetalleCompra>(); // Lista para almacenar los detalles de compra
 
             using (var conexion = new SqlConnection(_cadenaSQL))
             {
                 conexion.Open();
-                SqlCommand cmd = new SqlCommand("sp_ListaDetalleCompra", conexion);
+                SqlCommand cmd = new SqlCommand("sp_ListaDetalleCompra", conexion);  // Crea un comando SQL para llamar al procedimiento almacenado
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 using (var dr = await cmd.ExecuteReaderAsync()) 
                 {
                     while (await dr.ReadAsync())
                     {
+                        // Lee los datos del detalle de compra desde el SqlDataReader y los agrega a la lista
                         _lista.Add(new DetalleCompra
                         {
                             idDetalleCompra = Convert.ToInt32(dr["idDetalleCompra"]),
@@ -50,9 +55,11 @@ namespace Practica.Repository.Implementacion
                     }
                 }
             }
-            return _lista;
+            return _lista; // Retorna la lista de detalles de compra
         }
 
+
+        // Implementación del método Crear de la interfaz IGenericRepository
         public async Task<bool> Crear(DetalleCompra modelo)
         {
             using (var conexion = new SqlConnection(_cadenaSQL))
@@ -77,6 +84,8 @@ namespace Practica.Repository.Implementacion
             }
         }
 
+
+        // Implementación del método Editar de la interfaz IGenericRepository
         public async Task<bool> Editar(DetalleCompra modelo)
         {
             using (var conexion = new SqlConnection(_cadenaSQL))
@@ -105,6 +114,8 @@ namespace Practica.Repository.Implementacion
             }
         }
 
+
+        // Implementación del método Eliminar de la interfaz IGenericRepository
         public async Task<bool> Eliminar(int  id)
         {
             using (var conexion = new SqlConnection(_cadenaSQL))

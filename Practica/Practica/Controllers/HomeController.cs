@@ -9,10 +9,13 @@ namespace Practica.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        // Define los repositorios para Producto, Proveedor y DetalleCompra
         private readonly IGenericRepository<Producto> _productoRepository;
         private readonly IGenericRepository<Proveedor> _proveedorRepository;
         private readonly IGenericRepository<DetalleCompra> _detalleCompraRepository;
 
+
+        // Constructor que recibe las dependencias a través de la inyección de dependencias
         public HomeController(ILogger<HomeController> logger,
             IGenericRepository<Producto> productoRepository,
             IGenericRepository<Proveedor> proveedorRepository,
@@ -29,6 +32,8 @@ namespace Practica.Controllers
             return View();
         }
 
+
+        // Acción para obtener la lista de productos mediante una solicitud GET
         [HttpGet]
         public async Task<IActionResult> listaProductos()
         {
@@ -36,6 +41,8 @@ namespace Practica.Controllers
             return StatusCode(StatusCodes.Status200OK, _lista);
         }
 
+
+        // Acción para obtener la lista de proveedores mediante una solicitud GET
         [HttpGet]
         public async Task<IActionResult> listaProveedores()
         {
@@ -43,6 +50,8 @@ namespace Practica.Controllers
             return StatusCode(StatusCodes.Status200OK, _lista);
         }
 
+
+        // Acción para obtener la lista de detalles de compras mediante una solicitud GET
         [HttpGet]
         public async Task<IActionResult> listaDetalleCompras()
         {
@@ -50,6 +59,8 @@ namespace Practica.Controllers
             return StatusCode(StatusCodes.Status200OK, _lista);
         }
 
+
+        // Acción para crear un nuevo detalle de compra mediante una solicitud POST
         [HttpPost]
         public async Task<IActionResult> crearDetalleCompra([FromBody] DetalleCompra modelo)
         {
@@ -60,6 +71,8 @@ namespace Practica.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { valor = _resultado, msg = "error" });
         }
 
+
+        // Acción para editar un detalle de compra existente mediante una solicitud PUT
         [HttpPut]
         public async Task<IActionResult> editarDetalleCompra([FromBody] DetalleCompra modelo)
         {
@@ -70,6 +83,8 @@ namespace Practica.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { valor = _resultado, msg = "error" });
         }
 
+
+        // Acción para eliminar un detalle de compra existente mediante una solicitud PUT
         [HttpPut]
         public async Task<IActionResult> eliminarDetalleCompra(int idDetalleCompra)
         {

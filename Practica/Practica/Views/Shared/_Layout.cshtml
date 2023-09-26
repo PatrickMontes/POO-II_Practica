@@ -4,11 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Practica</title>
+
+    <!-- Se incluye la hoja de estilo CSS de Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
+    <!-- Se incluyen hojas de estilo de librerías externas para datepicker y SweetAlert2 -->
     <link href="~/lib/datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
     <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
 
+    <!-- Se incluyen hojas de estilo personalizadas con versión para evitar caché -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Practica.styles.css" asp-append-version="true" />
 </head>
@@ -45,13 +49,18 @@
             &copy; 2023 - Practica - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <!-- Se incluyen las librerías de jQuery y Bootstrap para funcionalidad JavaScript -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Se incluyen las librerías de datepicker y SweetAlert2 para funcionalidad adicional -->
     <script src="~/lib/datepicker/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
 
+    <!-- Se incluye el archivo JavaScript personalizado y sección opcional de scripts adicionales -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

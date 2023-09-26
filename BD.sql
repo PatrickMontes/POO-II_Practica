@@ -1,7 +1,13 @@
+-- Crear la base de datos "PracticaPOO"
 create database PracticaPOO
+
+-- Usar la base de datos "PracticaPOO"
 use PracticaPOO
 
+-- Eliminar la base de datos "PracticaPOO" 
 drop database PracticaPOO
+
+
 ------------TABLAS------------
 create table Producto(
 	idProducto int primary key identity,
@@ -34,14 +40,19 @@ insert into DetalleCompra values(1, 1, 500, 4.50, '20230810', 'A'),
 								(5, 4, 440, 6.70, '20230915', 'A')
 
 ------------STORE PROCEDURE------------
+
+-- Procedimiento almacenado para listar productos
 create procedure sp_ListaProducto
 as
 	select*from Producto
 
+-- Procedimiento almacenado para listar proveedores
 create procedure sp_ListaProveedor
 as
 	select*from Proveedor
 
+-- Procedimiento almacenado para listar detalles de compra
+--que tengan como estado de compra "A"
 create procedure sp_ListaDetalleCompra
 as
 	set dateformat dmy
@@ -50,6 +61,7 @@ as
 		 inner join Proveedor pv on dc.idProveedor = pv.idProveedor
 	where dc.estadoCompra = 'A'
 
+-- Procedimiento almacenado para agregar un nuevo detalle de compra
 create procedure sp_NuevoDetalleCompra
 @idProducto int,
 @idProveedor int,
@@ -61,6 +73,7 @@ as
 	set dateformat dmy
 	insert into DetalleCompra values(@idProducto, @idProveedor, @cantidad, @precio, convert(date, @fechaCompra), @estadoCompra)
 
+-- Procedimiento almacenado para modificar un detalle de compra existente
 create procedure sp_ModificarDetalleCompra
 @idDetalleCompra int,
 @idProducto int,
@@ -75,6 +88,8 @@ as
 							 precio = @precio, fechaCompra = convert(date, @fechaCompra), estadoCompra = @estadoCompra
 	where idDetalleCompra = @idDetalleCompra
 
+-- Procedimiento almacenado para marcar un detalle de compra como eliminado
+--colocando su estado de compra en "E"
 create procedure sp_EliminarDetalleCompra
 @idDetalleCompra int
 as
